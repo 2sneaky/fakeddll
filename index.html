@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FakeDLL Generator</title>
+    <title>dll generator</title>
     <style>
         :root {
             --bg-color: #f9f9f9;
@@ -28,7 +28,7 @@
         }
 
         body {
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-family: 'Arial', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
@@ -42,16 +42,17 @@
         .wrapper {
             background: var(--wrapper-bg);
             border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 20px;
-            width: 360px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            padding: 25px;
+            width: 400px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             transition: background-color 0.3s;
         }
         h1 {
             text-align: center;
-            font-size: 22px;
-            margin-bottom: 15px;
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: bold;
         }
         label {
             font-size: 14px;
@@ -62,7 +63,7 @@
             width: calc(100% - 20px);
             padding: 10px;
             border: 1px solid #ccc;
-            border-radius: 4px;
+            border-radius: 6px;
             box-sizing: border-box;
             font-size: 14px;
             background: var(--wrapper-bg);
@@ -72,16 +73,18 @@
             background-color: var(--button-bg);
             color: #fff;
             border: none;
-            padding: 10px 15px;
+            padding: 12px 18px;
             font-size: 16px;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
             margin-top: 15px;
             width: 100%;
-            transition: background-color 0.3s;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
         }
         button:hover {
             background-color: var(--button-hover-bg);
+            transform: translateY(-2px);
         }
         .progress-container {
             background: #f3f3f3;
@@ -106,13 +109,15 @@
             display: inline-block;
             color: #fff;
             background: var(--download-bg);
-            padding: 10px 15px;
-            border-radius: 4px;
+            padding: 12px 18px;
+            border-radius: 6px;
             text-decoration: none;
-            transition: background-color 0.3s;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
         }
         .download-section a:hover {
             background: var(--download-hover-bg);
+            transform: scale(1.05);
         }
         .theme-toggle {
             position: absolute;
@@ -122,8 +127,19 @@
             font-size: 24px;
             transition: transform 0.4s ease;
         }
-        .spin {
-            transform: rotate(360deg);
+        .spin-right {
+            animation: spin-right 0.4s ease-in-out forwards;
+        }
+        .spin-left {
+            animation: spin-left 0.4s ease-in-out forwards;
+        }
+        @keyframes spin-right {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(180deg); }
+        }
+        @keyframes spin-left {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(-180deg); }
         }
     </style>
 </head>
@@ -131,20 +147,20 @@
     <div class="theme-toggle" id="themeToggle">☀️</div>
     <div class="wrapper">
         <h1>FakeDLL Generator</h1>
-        <label for="dllName">DLL Name</label>
+        <label for="dllName">name</label>
         <input type="text" id="dllName" placeholder="Enter DLL name">
 
-        <label for="dllSize">File Size (KB)</label>
+        <label for="dllSize">file size (kb)</label>
         <input type="text" id="dllSize" placeholder="Enter file size">
 
-        <button id="generateBtn">Generate DLL</button>
+        <button id="generateBtn">create dll</button>
 
         <div class="progress-container">
             <div class="progress" id="progressBar"></div>
         </div>
 
         <div class="download-section" id="downloadArea">
-            <a id="downloadLink" href="#" download>Download DLL</a>
+            <a id="downloadLink" href="#" download>download dll</a>
         </div>
     </div>
 
@@ -188,15 +204,20 @@
         const body = document.body;
 
         themeToggle.addEventListener('click', () => {
-            themeToggle.classList.add('spin');
-            setTimeout(() => themeToggle.classList.remove('spin'), 400);
-
             if (body.getAttribute('data-theme') === 'dark') {
-                body.removeAttribute('data-theme');
-                themeToggle.textContent = '☀️';
+                themeToggle.classList.add('spin-left');
+                setTimeout(() => {
+                    themeToggle.classList.remove('spin-left');
+                    body.removeAttribute('data-theme');
+                    themeToggle.textContent = '☀️';
+                }, 400);
             } else {
-                body.setAttribute('data-theme', 'dark');
-                themeToggle.textContent = '🌙';
+                themeToggle.classList.add('spin-right');
+                setTimeout(() => {
+                    themeToggle.classList.remove('spin-right');
+                    body.setAttribute('data-theme', 'dark');
+                    themeToggle.textContent = '🌙';
+                }, 400);
             }
         });
     </script>
