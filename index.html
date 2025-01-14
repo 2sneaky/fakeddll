@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FakeDLL Creator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            color: #555;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .progress-bar {
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .progress {
+            height: 10px;
+            background-color: #4CAF50;
+            width: 0;
+            transition: width 0.4s ease;
+        }
+        .download {
+            text-align: center;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>FakeDLL Creator</h1>
+        <label for="dllName">DLL Name</label>
+        <input type="text" id="dllName" placeholder="Enter the DLL name">
+
+        <label for="dllSize">File Size (KB)</label>
+        <input type="text" id="dllSize" placeholder="Enter the file size">
+
+        <button id="createBtn">Create DLL</button>
+
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+
+        <div class="download" id="downloadSection" style="display: none;">
+            <a id="downloadLink" href="#" download>Download DLL</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('createBtn').addEventListener('click', function() {
+            const dllName = document.getElementById('dllName').value || 'fake.dll';
+            const dllSize = parseInt(document.getElementById('dllSize').value) || 1;
+
+            if (isNaN(dllSize) || dllSize <= 0) {
+                alert('Please enter a valid file size.');
+                return;
+            }
+
+            const progressBar = document.getElementById('progress');
+            progressBar.style.width = '0';
+
+            const interval = setInterval(() => {
+                let currentWidth = parseInt(progressBar.style.width);
+                if (currentWidth >= 100) {
+                    clearInterval(interval);
+                    generateFakeDll(dllName, dllSize);
+                } else {
+                    progressBar.style.width = (currentWidth + 5) + '%';
+                }
+            }, 100);
+        });
+
+        function generateFakeDll(name, size) {
+            const blobContent = new Uint8Array(size * 1024).map(() => Math.random() * 255);
+            const blob = new Blob([blobContent], { type: 'application/octet-stream' });
+
+            const downloadLink = document.getElementById('downloadLink');
+            downloadLink.href = URL.createObjectURL(blob);
+            downloadLink.download = name.endsWith('.dll') ? name : name + '.dll';
+
+            document.getElementById('downloadSection').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
