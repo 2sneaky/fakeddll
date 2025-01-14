@@ -125,7 +125,13 @@
             right: 10px;
             cursor: pointer;
             font-size: 24px;
-            transition: transform 0.4s ease;
+            transition: transform 0.4s ease, opacity 0.3s ease;
+        }
+        .theme-toggle.fade-out {
+            opacity: 0;
+        }
+        .theme-toggle.fade-in {
+            opacity: 1;
         }
         .spin-right {
             animation: spin-right 0.6s ease-in-out forwards;
@@ -206,21 +212,20 @@
         const body = document.body;
 
         themeToggle.addEventListener('click', () => {
-            if (body.getAttribute('data-theme') === 'dark') {
-                themeToggle.classList.add('spin-left');
-                setTimeout(() => {
-                    themeToggle.classList.remove('spin-left');
+            themeToggle.classList.add('fade-out');
+            setTimeout(() => {
+                if (body.getAttribute('data-theme') === 'dark') {
+                    themeToggle.classList.remove('fade-out');
+                    themeToggle.classList.add('fade-in');
                     body.removeAttribute('data-theme');
                     themeToggle.textContent = '☀️';
-                }, 600);
-            } else {
-                themeToggle.classList.add('spin-right');
-                setTimeout(() => {
-                    themeToggle.classList.remove('spin-right');
+                } else {
+                    themeToggle.classList.remove('fade-out');
+                    themeToggle.classList.add('fade-in');
                     body.setAttribute('data-theme', 'dark');
                     themeToggle.textContent = '🌙';
-                }, 600);
-            }
+                }
+            }, 300);
         });
     </script>
 </body>
