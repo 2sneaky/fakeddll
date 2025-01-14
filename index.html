@@ -128,27 +128,29 @@
             transition: transform 0.4s ease;
         }
         .spin-right {
-            animation: spin-right 0.4s ease-in-out forwards;
+            animation: spin-right 0.6s ease-in-out forwards;
         }
         .spin-left {
-            animation: spin-left 0.4s ease-in-out forwards;
+            animation: spin-left 0.6s ease-in-out forwards;
         }
         @keyframes spin-right {
             0% { transform: rotate(0deg); }
-            100% { transform: rotate(180deg); }
+            50% { transform: rotate(90deg); opacity: 0; }
+            100% { transform: rotate(180deg); opacity: 1; }
         }
         @keyframes spin-left {
             0% { transform: rotate(0deg); }
-            100% { transform: rotate(-180deg); }
+            50% { transform: rotate(-90deg); opacity: 0; }
+            100% { transform: rotate(-180deg); opacity: 1; }
         }
     </style>
 </head>
 <body>
     <div class="theme-toggle" id="themeToggle">☀️</div>
     <div class="wrapper">
-        <h1>FakeDLL Generator</h1>
+        <h1>dll generator</h1>
         <label for="dllName">name</label>
-        <input type="text" id="dllName" placeholder="Enter DLL name">
+        <input type="text" id="dllName" placeholder="Enter name">
 
         <label for="dllSize">file size (kb)</label>
         <input type="text" id="dllSize" placeholder="Enter file size">
@@ -210,14 +212,14 @@
                     themeToggle.classList.remove('spin-left');
                     body.removeAttribute('data-theme');
                     themeToggle.textContent = '☀️';
-                }, 400);
+                }, 600);
             } else {
                 themeToggle.classList.add('spin-right');
                 setTimeout(() => {
                     themeToggle.classList.remove('spin-right');
                     body.setAttribute('data-theme', 'dark');
                     themeToggle.textContent = '🌙';
-                }, 400);
+                }, 600);
             }
         });
     </script>
