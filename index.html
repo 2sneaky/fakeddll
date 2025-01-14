@@ -5,29 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FakeDLL Generator</title>
     <style>
+        :root {
+            --bg-color: #f9f9f9;
+            --text-color: #333;
+            --wrapper-bg: #fff;
+            --button-bg: #007BFF;
+            --button-hover-bg: #0056b3;
+            --progress-bg: #007BFF;
+            --download-bg: #28a745;
+            --download-hover-bg: #218838;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --wrapper-bg: #1e1e1e;
+            --button-bg: #3a86ff;
+            --button-hover-bg: #2a56b3;
+            --progress-bg: #3a86ff;
+            --download-bg: #4caf50;
+            --download-hover-bg: #388e3c;
+        }
+
         body {
             font-family: Verdana, Geneva, Tahoma, sans-serif;
-            background-color: #f9f9f9;
-            color: #333;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
         }
         .wrapper {
-            background: #fff;
+            background: var(--wrapper-bg);
             border: 1px solid #ddd;
             border-radius: 8px;
             padding: 20px;
             width: 360px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
         }
         h1 {
             text-align: center;
             font-size: 22px;
-            color: #222;
             margin-bottom: 15px;
         }
         label {
@@ -42,9 +65,11 @@
             border-radius: 4px;
             box-sizing: border-box;
             font-size: 14px;
+            background: var(--wrapper-bg);
+            color: var(--text-color);
         }
         button {
-            background-color: #007BFF;
+            background-color: var(--button-bg);
             color: #fff;
             border: none;
             padding: 10px 15px;
@@ -53,9 +78,10 @@
             cursor: pointer;
             margin-top: 15px;
             width: 100%;
+            transition: background-color 0.3s;
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: var(--button-hover-bg);
         }
         .progress-container {
             background: #f3f3f3;
@@ -66,7 +92,7 @@
             position: relative;
         }
         .progress {
-            background: #007BFF;
+            background: var(--progress-bg);
             height: 100%;
             width: 0;
             transition: width 0.4s ease;
@@ -79,17 +105,26 @@
         .download-section a {
             display: inline-block;
             color: #fff;
-            background: #28a745;
+            background: var(--download-bg);
             padding: 10px 15px;
             border-radius: 4px;
             text-decoration: none;
+            transition: background-color 0.3s;
         }
         .download-section a:hover {
-            background: #218838;
+            background: var(--download-hover-bg);
+        }
+        .theme-toggle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 24px;
         }
     </style>
 </head>
 <body>
+    <div class="theme-toggle" id="themeToggle">☀️</div>
     <div class="wrapper">
         <h1>FakeDLL Generator</h1>
         <label for="dllName">DLL Name</label>
@@ -144,6 +179,19 @@
 
             document.getElementById('downloadArea').style.display = 'block';
         }
+
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                themeToggle.textContent = '☀️';
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = '🌙';
+            }
+        });
     </script>
 </body>
 </html>
