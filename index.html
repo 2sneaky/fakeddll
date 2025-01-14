@@ -93,6 +93,13 @@
             margin: 15px 0;
             overflow: hidden;
             position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .progress-container.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
         .progress {
             background: var(--progress-bg);
@@ -125,13 +132,7 @@
             right: 10px;
             cursor: pointer;
             font-size: 24px;
-            transition: transform 0.4s ease, opacity 0.3s ease;
-        }
-        .theme-toggle.fade-out {
-            opacity: 0;
-        }
-        .theme-toggle.fade-in {
-            opacity: 1;
+            transition: transform 0.4s ease;
         }
         .spin-right {
             animation: spin-right 0.6s ease-in-out forwards;
@@ -163,7 +164,7 @@
 
         <button id="generateBtn">create dll</button>
 
-        <div class="progress-container">
+        <div class="progress-container" id="progressContainer">
             <div class="progress" id="progressBar"></div>
         </div>
 
@@ -173,7 +174,12 @@
     </div>
 
     <script>
-        document.getElementById('generateBtn').addEventListener('click', () => {
+        const generateBtn = document.getElementById('generateBtn');
+        const progressContainer = document.getElementById('progressContainer');
+
+        generateBtn.addEventListener('click', () => {
+            progressContainer.classList.add('visible');
+
             const dllName = document.getElementById('dllName').value.trim() || 'my_fake.dll';
             const dllSize = parseInt(document.getElementById('dllSize').value.trim());
 
@@ -212,20 +218,21 @@
         const body = document.body;
 
         themeToggle.addEventListener('click', () => {
-            themeToggle.classList.add('fade-out');
-            setTimeout(() => {
-                if (body.getAttribute('data-theme') === 'dark') {
-                    themeToggle.classList.remove('fade-out');
-                    themeToggle.classList.add('fade-in');
+            if (body.getAttribute('data-theme') === 'dark') {
+                themeToggle.classList.add('spin-left');
+                setTimeout(() => {
+                    themeToggle.classList.remove('spin-left');
                     body.removeAttribute('data-theme');
                     themeToggle.textContent = '☀️';
-                } else {
-                    themeToggle.classList.remove('fade-out');
-                    themeToggle.classList.add('fade-in');
+                }, 600);
+            } else {
+                themeToggle.classList.add('spin-right');
+                setTimeout(() => {
+                    themeToggle.classList.remove('spin-right');
                     body.setAttribute('data-theme', 'dark');
                     themeToggle.textContent = '🌙';
-                }
-            }, 300);
+                }, 600);
+            }
         });
     </script>
 </body>
