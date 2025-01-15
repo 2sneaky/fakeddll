@@ -93,13 +93,6 @@
             margin: 15px 0;
             overflow: hidden;
             position: relative;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.4s ease, transform 0.4s ease;
-        }
-        .progress-container.visible {
-            opacity: 1;
-            transform: translateY(0);
         }
         .progress {
             background: var(--progress-bg);
@@ -164,7 +157,7 @@
 
         <button id="generateBtn">create dll</button>
 
-        <div class="progress-container" id="progressContainer">
+        <div class="progress-container">
             <div class="progress" id="progressBar"></div>
         </div>
 
@@ -174,16 +167,11 @@
     </div>
 
     <script>
-        const generateBtn = document.getElementById('generateBtn');
-        const progressContainer = document.getElementById('progressContainer');
-
-        generateBtn.addEventListener('click', () => {
-            progressContainer.classList.add('visible');
-
+        document.getElementById('generateBtn').addEventListener('click', () => {
             const dllName = document.getElementById('dllName').value.trim() || 'my_fake.dll';
-            const dllSize = parseInt(document.getElementById('dllSize').value.trim());
+            const dllSize = parseFloat(document.getElementById('dllSize').value.trim());
 
-            if (!dllSize || dllSize <= 0) {
+            if (isNaN(dllSize) || dllSize <= 0) {
                 alert('Enter a valid file size.');
                 return;
             }
@@ -204,7 +192,7 @@
         });
 
         function createDll(name, size) {
-            const data = new Uint8Array(size * 1024).map(() => Math.random() * 255);
+            const data = new Uint8Array(Math.floor(size * 1024)).map(() => Math.random() * 255);
             const blob = new Blob([data], { type: 'application/octet-stream' });
 
             const link = document.getElementById('downloadLink');
